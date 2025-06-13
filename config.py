@@ -8,8 +8,8 @@ class Config:
     # You might have different database URIs for development, testing, production
     # SQLALCHEMY_DATABASE_URI = 'sqlite:///site.db'
     # Example for your AES keys (still recommend environment variables for production)
-    AES_ENCRYPTION_KEY_STRING = "v0HQBCYGrsQpMpXKVvoUt8fxRprRQUoJ"# This will be loaded as UTF-8 bytes
-    AES_IV_STRING = "kg9C1wColkgPBg/0" # This will be loaded as UTF-8 bytes
+    AES_ENCRYPTION_KEY_STRING = "e36581506fde7939670430d04d8d7242"# This will be loaded as UTF-8 bytes
+    AES_IV_STRING = "20f92fa82d3305b2" # This will be loaded as UTF-8 bytes
 
 class DevelopmentConfig(Config):
     DEBUG = True

@@ -1,19 +1,103 @@
+from google import genai
+from google.genai import types
+from google.genai.types import (
+    FunctionDeclaration, Tool,
+    GenerateContentConfig, FunctionResponse,
+    Content, Part
+)
+
+from app.services.function_service import get_branch_wise_deposits
+from app.services.function_service import get_revenue_sources
+
+
+
+
 # Place your GetPromptResponse function here
 def GetPromptResponse(user_input: str) -> str:
-    """
-    Dummy function to simulate getting a response from an AI model.
-    In a real application, this would integrate with an actual LLM API.
-    """
-    if "hello" in user_input.lower():
-        return f"Hello there! You said: '{user_input}'. How can I assist you today?"
-    elif "time" in user_input.lower():
-        import datetime
-        return f"The current time is {datetime.datetime.now().strftime('%H:%M:%S')}."
-    elif "joke" in user_input.lower():
-        return "Why don't scientists trust atoms? Because they make up everything!"
+    get_revenue_function = {
+        "name": "get_revenue_sources",
+        "description": "Get revenue sources from selected branches.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "selectedBranches": {"type": "string"},
+                "fromMonth": {"type": "string"},
+                "fromYear": {"type": "string"},
+                "toMonth": {"type": "string"},
+                "toYear": {"type": "string"}
+            },
+            "required": ["selectedBranches"]
+        }
+    }
+
+    get_deposit_function = {
+        "name": "get_branch_wise_deposits",
+        "description": "Get branch-wise deposit data.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "selectedBranches": {"type": "string"},
+                "selectedTypes": {"type": "string"},
+                "fromMonth": {"type": "string"},
+                "fromYear": {"type": "string"},
+                "toMonth": {"type": "string"},
+                "toYear": {"type": "string"}
+            },
+            "required": ["selectedBranches"]
+        }
+    }
+
+    tools = types.Tool(function_declarations=[get_revenue_function, get_deposit_function])
+    system_instruction = types.Content(
+        role="user",
+        parts=[types.Part(text="You're a smart banking assistant. Provide clear summaries of revenue and deposits.")]
+    )
+
+    client = genai.Client(api_key="AIzaSyCcDfOX0UtX67fmLQyaWulSIVAzgL1rShw")
+    contents = [
+        system_instruction,
+        types.Content(role="user", parts=[types.Part(text=user_input)])
+    ]
+
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=contents,
+        config=types.GenerateContentConfig(tools=[tools])
+    )
+
+    part = response.candidates[0].content.parts[0]
+    if part.function_call:
+        args = part.function_call.args
+        if part.function_call.name == "get_revenue_sources":
+            result = get_revenue_sources(**args)
+        elif part.function_call.name == "get_branch_wise_deposits":
+            result = get_branch_wise_deposits(**args)
+        else:
+            result = {"error": "Function not found."}
+
+        followup_contents = [
+            system_instruction,
+            contents[1],
+            types.Content(role="model", parts=[types.Part(function_call=part.function_call)]),
+            types.Content(
+                role="function",
+                parts=[
+                    types.Part(function_response=FunctionResponse(
+                        name=part.function_call.name,
+                        response=result
+                    )),
+                    types.Part(text="Function executed.")
+                ]
+            )
+        ]
+        followup_response = client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=followup_contents
+        )
+        return followup_response.candidates[0].content.parts[0].text
     else:
-        return f"This is a hardcoded AI response based on your input: '{user_input}'. " \
-               f"In a real scenario, I'd provide a more dynamic answer!"
+        return part.text
+
 
 # If EncryptionService is ONLY used by the AI response, it could stay here.
 # But since encryption/decryption is a general utility, moving it to app/services/encryption_service.py is better.
