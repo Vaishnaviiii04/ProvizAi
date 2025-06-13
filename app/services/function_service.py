@@ -1,6 +1,13 @@
 import random
 
+from flask import current_app
+from flask import json
+from flask import requests
+
 from app.services.encryption_service import EncryptionService
+
+key_bytes = current_app.config['AES_ENCRYPTION_KEY_STRING'].encode('utf-8')
+iv_bytes = current_app.config['AES_IV_STRING'].encode('utf-8')
 
 
 def get_revenue_sources(selectedBranches, fromMonth=None, fromYear=None, toMonth=None, toYear=None):
@@ -25,7 +32,7 @@ def get_revenue_sources(selectedBranches, fromMonth=None, fromYear=None, toMonth
         "total_revenue": formatted_total
     }
 
-def get_branch_wise_deposits(selectedBranches, selectedTypes=None, fromMonth=None, fromYear=None, toMonth=None, toYear=None):
+def get_branch_wise_deposits(selectedBranches, selectedTypes=None, fromMonth=None, fromYear=None, toMonth=None, toYear=None, UserId=None, Last_SignedIn_Time=None, Bank_Id=None, AppVersion=None, Platform=None):
     API_URL = "http://172.16.30.137:8080/CL_LOANAPI/api/v1/GetBranchWiseDeposits"
     if API_URL:
         try:
@@ -36,17 +43,17 @@ def get_branch_wise_deposits(selectedBranches, selectedTypes=None, fromMonth=Non
                 "fromYear": fromYear or None,
                 "toMonth": toMonth or None,
                 "toYear": toYear or None,
-                "UserId": "12345",
-                "Last_SignedIn_Time": "2024-06-01T12:00:00",
-                "Bank_Id": "BANK001",
-                "AppVersion": "1.0.0",
-                "Platform": "Python"
+                "UserId": UserId or None,
+                "Last_SignedIn_Time": Last_SignedIn_Time or None,
+                "Bank_Id": Bank_Id or None,
+                "AppVersion":AppVersion or None,
+                "Platform": Platform or None,
             }
-            encrypted_val = EncryptionService().encryptWithAES(json.dumps(post_data))
+            encrypted_val = EncryptionService(key=key_bytes,iv=iv_bytes).encryptWithAES(json.dumps(post_data))
             url = f"{API_URL}?postData=" + json.dumps({"JSONString": encrypted_val})
             response = requests.get(url, headers={"Accept-Encoding": "gzip"}, timeout=10)
             # decompressed = gzip.decompress(response.content)
-            decrypted_json = EncryptionService().decryptAes(decompressed.decode("utf-8"))
+            decrypted_json = EncryptionService().decryptAes(response.decode("utf-8"))
             return json.loads(decrypted_json)
         except Exception as e:
             return {"error": f"API call failed: {e}"}
