@@ -1,6 +1,6 @@
 import random
 
-from flask import json
+from flask import json, current_app
 import requests
 
 
@@ -31,6 +31,8 @@ def get_revenue_sources(selectedBranches, fromMonth=None, fromYear=None, toMonth
     }
 
 def get_branch_wise_deposits(selectedBranches, selectedTypes=None, fromMonth=None, fromYear=None, toMonth=None, toYear=None, UserId=None, Last_SignedIn_Time=None, Bank_Id=None, AppVersion=None, Platform=None):
+    key_bytes = current_app.config['AES_ENCRYPTION_KEY_STRING'].encode('utf-8')
+    iv_bytes = current_app.config['AES_IV_STRING'].encode('utf-8')
     API_URL = "http://172.16.30.137:8080/CL_LOANAPI/api/v1/GetBranchWiseDeposits"
     if API_URL:
         try:
@@ -47,11 +49,11 @@ def get_branch_wise_deposits(selectedBranches, selectedTypes=None, fromMonth=Non
                 "AppVersion":AppVersion or None,
                 "Platform": Platform or None,
             }
-            encrypted_val = EncryptionService().encryptWithAES(json.dumps(post_data))
+            encrypted_val = EncryptionService(key=key_bytes,iv=iv_bytes).encryptWithAES(json.dumps(post_data))
             url = f"{API_URL}?postData=" + json.dumps({"JSONString": encrypted_val})
             response = requests.get(url, headers={"Accept-Encoding": "gzip"}, timeout=10)
             # decompressed = gzip.decompress(response.content)
-            decrypted_json = EncryptionService().decryptAes(response.content.decode("utf-8"))
+            decrypted_json = EncryptionService(key=key_bytes,iv=iv_bytes).decryptAes(response.content.decode("utf-8"))
             return json.loads(decrypted_json)
         except Exception as e:
             return {"error": f"API call failed: {e}"}
