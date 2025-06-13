@@ -1,13 +1,11 @@
 import random
 
-from flask import current_app
 from flask import json
-from flask import requests
+import requests
+
 
 from app.services.encryption_service import EncryptionService
 
-key_bytes = current_app.config['AES_ENCRYPTION_KEY_STRING'].encode('utf-8')
-iv_bytes = current_app.config['AES_IV_STRING'].encode('utf-8')
 
 
 def get_revenue_sources(selectedBranches, fromMonth=None, fromYear=None, toMonth=None, toYear=None):
@@ -49,11 +47,11 @@ def get_branch_wise_deposits(selectedBranches, selectedTypes=None, fromMonth=Non
                 "AppVersion":AppVersion or None,
                 "Platform": Platform or None,
             }
-            encrypted_val = EncryptionService(key=key_bytes,iv=iv_bytes).encryptWithAES(json.dumps(post_data))
+            encrypted_val = EncryptionService().encryptWithAES(json.dumps(post_data))
             url = f"{API_URL}?postData=" + json.dumps({"JSONString": encrypted_val})
             response = requests.get(url, headers={"Accept-Encoding": "gzip"}, timeout=10)
             # decompressed = gzip.decompress(response.content)
-            decrypted_json = EncryptionService().decryptAes(response.decode("utf-8"))
+            decrypted_json = EncryptionService().decryptAes(response.content.decode("utf-8"))
             return json.loads(decrypted_json)
         except Exception as e:
             return {"error": f"API call failed: {e}"}

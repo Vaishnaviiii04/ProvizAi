@@ -10,8 +10,8 @@ class EncryptionService:
             raise ValueError("Key must be 32 bytes for AES-256 encryption.")
         if len(iv) != 16: # Enforce 16-byte IV
             raise ValueError("IV must be 16 bytes.")
-        self.key = key
-        self.iv = iv
+        self.key = key or "e36581506fde7939670430d04d8d7242"
+        self.iv = iv or "20f92fa82d3305b2"
 
     def decryptAes(self, base64_encrypted_text: str) -> str:
         try:
