@@ -6,14 +6,9 @@ from google.genai.types import (
     Content, Part
 )
 
-from app.services.function_service import get_branch_wise_deposits
-from app.services.function_service import get_revenue_sources
+from app.services.function_service import get_branch_wise_deposits, get_revenue_sources
 
-
-
-
-# Place your GetPromptResponse function here
-def GetPromptResponse(user_input: str) -> str:
+def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
     get_revenue_function = {
         "name": "get_revenue_sources",
         "description": "Get revenue sources from selected branches.",
@@ -41,7 +36,12 @@ def GetPromptResponse(user_input: str) -> str:
                 "fromMonth": {"type": "string"},
                 "fromYear": {"type": "string"},
                 "toMonth": {"type": "string"},
-                "toYear": {"type": "string"}
+                "toYear": {"type": "string"},
+                "UserId": {"type": "string"},
+                "Last_SignedIn_Time": {"type": "string"},
+                "Bank_Id": {"type": "string"},
+                "AppVersion": {"type": "string"},
+                "Platform": {"type": "string"}
             },
             "required": ["selectedBranches"]
         }
@@ -67,7 +67,10 @@ def GetPromptResponse(user_input: str) -> str:
 
     part = response.candidates[0].content.parts[0]
     if part.function_call:
-        args = part.function_call.args
+        args = part.function_call.args or {}
+        if metadata:
+            args.update({k: v for k, v in metadata.items() if v is not None})
+
         if part.function_call.name == "get_revenue_sources":
             result = get_revenue_sources(**args)
         elif part.function_call.name == "get_branch_wise_deposits":
@@ -97,7 +100,3 @@ def GetPromptResponse(user_input: str) -> str:
         return followup_response.candidates[0].content.parts[0].text
     else:
         return part.text
-
-
-# If EncryptionService is ONLY used by the AI response, it could stay here.
-# But since encryption/decryption is a general utility, moving it to app/services/encryption_service.py is better.
