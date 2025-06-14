@@ -55,6 +55,7 @@ def get_ai_response():
         response_data["Message"] = f"An unexpected server error occurred: {e}"
 
     json_output = json.dumps(response_data)
+    json_output = EncryptionService(key=key_bytes,iv=iv_bytes).encryptWithAES(json_output)
 
     accept_encoding = request.headers.get('Accept-Encoding', '')
     if 'gzip' in accept_encoding:

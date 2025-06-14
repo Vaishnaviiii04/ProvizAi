@@ -37,11 +37,11 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
                 "fromYear": {"type": "string"},
                 "toMonth": {"type": "string"},
                 "toYear": {"type": "string"},
-                "UserId": {"type": "string"},
-                "Last_SignedIn_Time": {"type": "string"},
-                "Bank_Id": {"type": "string"},
-                "AppVersion": {"type": "string"},
-                "Platform": {"type": "string"}
+                # "UserId": {"type": "string"},
+                # "Last_SignedIn_Time": {"type": "string"},
+                # "Bank_Id": {"type": "string"},
+                # "AppVersion": {"type": "string"},
+                # "Platform": {"type": "string"}
             },
             "required": ["selectedBranches"]
         }
