@@ -74,7 +74,16 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
         if part.function_call.name == "get_revenue_sources":
             result = get_revenue_sources(**args)
         elif part.function_call.name == "get_branch_wise_deposits":
-            result = get_branch_wise_deposits(**args)
+            result_raw = get_branch_wise_deposits(**args)
+            # Access the first (and only) dictionary in the list
+            data = result_raw[0]
+
+            # Extract the 'category' and 'value'
+            branch_name = data['category']
+            deposit_value = data['value']
+
+            # Create the desired string
+            result= {"branch": branch_name,"value": deposit_value, "Currency" : "INR", "Unit": "Lakhs"}
         else:
             result = {"error": "Function not found."}
 
@@ -87,7 +96,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
                 parts=[
                     types.Part(function_response=FunctionResponse(
                         name=part.function_call.name,
-                        response=dict(result)
+                        response=result,
                     )),
                     types.Part(text="Function executed.")
                 ]
