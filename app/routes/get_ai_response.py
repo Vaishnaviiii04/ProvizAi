@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, current_app, make_response
+from flask import Blueprint, request, jsonify, current_app, make_response, Flask
 import json
 import base64
 import gzip
@@ -6,9 +6,13 @@ import io
 
 from app.services.gemini_service import GetPromptResponse
 from app.services.encryption_service import EncryptionService
+from flask_cors import CORS
+
+
 
 ai_bp = Blueprint('ai', __name__)
 
+CORS(ai_bp)
 @ai_bp.route('/GetAIResponse', methods=['GET'])
 def get_ai_response():
     key_bytes = current_app.config['AES_ENCRYPTION_KEY_STRING'].encode('utf-8')

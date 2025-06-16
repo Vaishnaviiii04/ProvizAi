@@ -87,7 +87,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
                 parts=[
                     types.Part(function_response=FunctionResponse(
                         name=part.function_call.name,
-                        response=result
+                        response=dict(result)
                     )),
                     types.Part(text="Function executed.")
                 ]

@@ -33,7 +33,7 @@ def get_revenue_sources(selectedBranches, fromMonth=None, fromYear=None, toMonth
 def get_branch_wise_deposits(selectedBranches, selectedTypes=None, fromMonth=None, fromYear=None, toMonth=None, toYear=None, UserId=None, Last_SignedIn_Time=None, Bank_Id=None, AppVersion=None, Platform=None):
     key_bytes = current_app.config['AES_ENCRYPTION_KEY_STRING'].encode('utf-8')
     iv_bytes = current_app.config['AES_IV_STRING'].encode('utf-8')
-    API_URL = "http://172.16.30.137:8080/CL_LOANAPI/api/v1/GetBranchWiseDeposits"
+    API_URL = "http://172.16.30.43:8080/CL_LOANAPI/api/v1/GetBranchWiseDeposits"
     if API_URL:
         try:
             post_data = {
