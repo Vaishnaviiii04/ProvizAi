@@ -37,11 +37,6 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
                 "fromYear": {"type": "string"},
                 "toMonth": {"type": "string"},
                 "toYear": {"type": "string"},
-                # "UserId": {"type": "string"},
-                # "Last_SignedIn_Time": {"type": "string"},
-                # "Bank_Id": {"type": "string"},
-                # "AppVersion": {"type": "string"},
-                # "Platform": {"type": "string"}
             },
             "required": ["selectedBranches"]
         }
@@ -72,18 +67,35 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
             args.update({k: v for k, v in metadata.items() if v is not None})
 
         if part.function_call.name == "get_revenue_sources":
-            result = get_revenue_sources(**args)
+            result_raw = get_revenue_sources(**args)
+            result = []
+
+            # Iterate through each dictionary in the 'result' list
+            for item in result_raw:
+                category = item['category']
+                value = item['value']
+
+                # Create a new dictionary for the current item
+                transformed_item = {
+                    "revenue_source_type": category,
+                    "revenue_generated": value,
+                    "Currency": "INR",
+                    "Unit": "Lakhs",
+                }
+
+                # Add the transformed dictionary to our list
+                result.append(transformed_item)
         elif part.function_call.name == "get_branch_wise_deposits":
             result_raw = get_branch_wise_deposits(**args)
             # Access the first (and only) dictionary in the list
             data = result_raw[0]
 
             # Extract the 'category' and 'value'
-            branch_name = data['category']
-            deposit_value = data['value']
+            category = data['category']
+            value = data['value']
 
             # Create the desired string
-            result= {"branch": branch_name,"value": deposit_value, "Currency" : "INR", "Unit": "Lakhs"}
+            result= {"branch": category,"deposit_value": value, "Currency" : "INR", "Unit": "Lakhs"}
         else:
             result = {"error": "Function not found."}
 
@@ -96,7 +108,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
                 parts=[
                     types.Part(function_response=FunctionResponse(
                         name=part.function_call.name,
-                        response=result,
+                        response=dict(result=result),
                     )),
                     types.Part(text="Function executed.")
                 ]
