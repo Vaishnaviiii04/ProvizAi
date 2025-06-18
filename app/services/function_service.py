@@ -58,7 +58,7 @@ def get_branch_wise_deposits(selectedBranches, selectedTypes=None, fromMonth=Non
             }
             encrypted_val = EncryptionService(key=key_bytes,iv=iv_bytes).encryptWithAES(json.dumps(post_data))
             url = f"{API_URL}?postData=" + json.dumps({"JSONString": encrypted_val})
-            response = requests.get(url, headers={"Accept-Encoding": "gzip"}, timeout=10)
+            response = requests.get(url, headers={"Accept-Encoding": "gzip"})
             # decompressed = gzip.decompress(response.content)
             decrypted_json = EncryptionService(key=key_bytes,iv=iv_bytes).decryptAes(response.content.decode("utf-8"))
             return json.loads(decrypted_json)
