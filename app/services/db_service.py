@@ -39,4 +39,5 @@ class DbService:
             finally:
                 cursor.close()
                 conn.close()
+        return None
 

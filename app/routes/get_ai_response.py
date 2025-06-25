@@ -92,41 +92,67 @@ def get_ai_response():
         response.headers['Content-Type'] = 'application/json'
 
     return response
-@ai_bp.route('/GetChatHistory', methods=['GET'])
-def get_chat_history():
-    user_id = request.args.get('userId')
 
+@ai_bp.route('/GetAIChat', methods=['GET'])
+def get_ai_chat():
     key_bytes = current_app.config['AES_ENCRYPTION_KEY_STRING'].encode('utf-8')
     iv_bytes = current_app.config['AES_IV_STRING'].encode('utf-8')
-    encryption_service = EncryptionService(key=key_bytes, iv=iv_bytes)
 
-    response_data = {"Valid": False, "Message": "Something went wrong."}
+    encryption_service = EncryptionService(key=key_bytes, iv=iv_bytes)
+    response_data = {"Valid": False, "Message": "An unknown error occurred."}
 
     try:
-        if not user_id:
-            raise ValueError("Missing userId parameter.")
+        post_data_str = request.args.get('postData')
+        if not post_data_str:
+            raise ValueError("Missing 'postData' query parameter.")
 
-        chats = DbService.get_chats_by_user_id(user_id)
+        post_data_json = json.loads(post_data_str)
+        encrypted_val = post_data_json.get('JSONString')
+        if not encrypted_val:
+            raise ValueError("Missing 'JSONString' field within 'postData'.")
 
-        if chats:
-            response_data["Valid"] = True
-            response_data["Message"] = [
-                {
-                    "userId": row[0],
-                    "userInput": row[1],
-                    "bankId": row[2],
-                    "platform": row[3],
-                    "response": row[4]
-                } for row in chats
-            ]
-        else:
-            response_data["Message"] = f"No chat found for userId {user_id}"
+        decrypted_json_string = encryption_service.decryptAes(encrypted_val)
+        decrypted_data = json.loads(decrypted_json_string)
 
-    except Exception as e:
+        extra_meta = {
+            "UserId": decrypted_data.get("UserId"),
+            "Last_SignedIn_Time": decrypted_data.get("Last_SignedIn_Time"),
+            "Bank_Id": decrypted_data.get("Bank_Id"),
+            "AppVersion": decrypted_data.get("AppVersion"),
+            "Platform": decrypted_data.get("Platform"),
+        }
+
+        chats = DbService.get_chats_by_user_id(extra_meta["UserId"])
+
+        response_data["Valid"] = True
+        response_data["Message"] = [
+            {
+                "userInput": row[2],
+                "response": row[5]
+            } for row in chats
+        ]
+
+        # if chats:
+        #     response_data["Valid"] = True
+        #     response_data["Message"] = [
+        #         {
+        #             "userInput": row[2],
+        #             "response": row[5]
+        #         } for row in chats
+        #     ]
+        # else:
+        #     response_data["Message"] = f"No chat found for userId {extra_meta['UserId']}"
+    except Exception as db_err:
+        print("Failed to log chat to DB:", db_err)
+    except json.JSONDecodeError as e:
+        response_data["Message"] = f"Invalid JSON format: {e}"
+    except ValueError as e:
         response_data["Message"] = str(e)
+    except Exception as e:
+        response_data["Message"] = f"An unexpected server error occurred: {e}"
 
     json_output = json.dumps(response_data)
-    encrypted_output = encryption_service.encryptWithAES(json_output)
+    encrypted_output = EncryptionService(key=key_bytes, iv=iv_bytes).encryptWithAES(json_output)
 
     accept_encoding = request.headers.get('Accept-Encoding', '')
     if 'gzip' in accept_encoding:
@@ -142,4 +168,3 @@ def get_chat_history():
         response.headers['Content-Type'] = 'application/json'
 
     return response
-
