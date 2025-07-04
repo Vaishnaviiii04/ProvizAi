@@ -6,10 +6,10 @@ class DbConnection:
     def get_connection():
         try:
             connection = mysql.connector.connect(
-                host='172.16.30.76',
+                host='localhost',
                 database='ai_agent',
-                user='codelogs',
-                password='testing@MYSQL123'  # Replace with your actual MySQL password
+                user='root',
+                password='password'  # Replace with your actual MySQL password
             )
             if connection.is_connected():
                 print("Connected to MySQL database")
