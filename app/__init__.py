@@ -22,7 +22,7 @@ def create_app(config_class=Config):
     # db.init_app(app)
 
     # Register Blueprints
-    from app.routes.get_ai_response import ai_bp # If you create one
+    from app.routes.ai_apis import ai_bp # If you create one
 
     app.register_blueprint(ai_bp)
 
