@@ -40,10 +40,11 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
         client = genai.Client(api_key="AIzaSyCPACKAszEIfA5gO3eRWDlzQ57q3zmYo_w")  # Replace with secure loading
 
         args = metadata or {}
+        
 
         get_revenue_function = {
             "name": "get_revenue_sources",
-            "description": "Get revenue sources from selected branches.",
+            "description": "Get revenue sources .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -58,7 +59,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_income_expenditure_function = {
             "name": "get_income_expenditure",
-            "description": "Get income and expenditure data from selected branches.",
+            "description": "Get income and expenditure data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -73,7 +74,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_monthly_profit_function = {
             "name": "get_monthly_profit",
-            "description": "Get monthly profit details from selected branches within a specified date range.",
+            "description": "Get monthly profit details .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -105,7 +106,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_areawise_deposit_function = {
             "name": "get_areawise_deposits",
-            "description": "Get area-wise deposit data for selected branches and deposit types.",
+            "description": "Get area-wise deposit data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -121,7 +122,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_castewise_deposit_function = {
             "name": "get_castewise_deposits",
-            "description": "Get caste-wise deposit data for selected branches and deposit types.",
+            "description": "Get caste-wise deposit data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -137,7 +138,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_member_vs_nonmember_deposit_function = {
             "name": "get_member_vs_nonmember_deposits",
-            "description": "Get member vs non-member deposit data for selected branches and deposit types.",
+            "description": "Get member vs non-member deposit data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -153,7 +154,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_deposit_categories_function = {
             "name": "get_deposit_categories",
-            "description": "Get deposit category-wise data for selected branches and deposit types.",
+            "description": "Get deposit category-wise data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -169,7 +170,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_deposit_interest_rate_function = {
             "name": "get_deposit_interest_rate",
-            "description": "Get deposit interest rate data for selected branches and deposit types.",
+            "description": "Get deposit interest rate data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -185,7 +186,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_monthly_deposit_volume_function = {
             "name": "get_monthly_deposit_volume",
-            "description": "Get monthly deposit volume data for selected branches and deposit types.",
+            "description": "Get monthly deposit volume data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -201,7 +202,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_monthly_deposit_count_function = {
             "name": "get_monthly_deposit_count",
-            "description": "Get monthly deposit count data for selected branches and deposit types.",
+            "description": "Get monthly deposit count data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -217,7 +218,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_monthly_closed_deposit_count_function = {
             "name": "get_monthly_closed_deposit_count",
-            "description": "Get monthly closed deposit count data for selected branches and deposit types.",
+            "description": "Get monthly closed deposit count data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -233,7 +234,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_monthly_closed_deposit_volume_function = {
             "name": "get_monthly_closed_deposit_volume",
-            "description": "Get monthly closed deposit volume data for selected branches and deposit types.",
+            "description": "Get monthly closed deposit volume data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -249,7 +250,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_monthly_renewed_deposit_count_function = {
             "name": "get_monthly_renewed_deposit_count",
-            "description": "Get monthly renewed deposit count data for selected branches and deposit types.",
+            "description": "Get monthly renewed deposit count data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -265,7 +266,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_monthly_renewed_deposit_volume_function = {
             "name": "get_monthly_renewed_deposit_volume",
-            "description": "Get monthly renewed deposit volume data for selected branches and deposit types.",
+            "description": "Get monthly renewed deposit volume data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -281,7 +282,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_branch_wise_loans_function = {
             "name": "get_branch_wise_loans",
-            "description": "Get branch-wise loan data for selected branches and loan types.",
+            "description": "Get branch-wise loan data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -297,7 +298,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_loan_categories_function = {
             "name": "get_loan_categories",
-            "description": "Get  loan category-wise data for selected branches and loan types.",
+            "description": "Get  loan category-wise data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -313,7 +314,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_type_wise_npa_loans_function = {
             "name": "get_type_wise_npa_loans",
-            "description": "Get type-wise NPA loan data for selected branches and loan types.",
+            "description": "Get type-wise NPA loan data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -329,7 +330,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_status_wise_npa_loans_function = {
             "name": "get_status_wise_npa_loans",
-            "description": "Get status-wise NPA loan data for selected branches and loan types.",
+            "description": "Get status-wise NPA loan data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -345,7 +346,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_type_wise_no_of_loans_function = {
             "name": "get_type_wise_no_of_loans",
-            "description": "Get type-wise number of loan data for selected branches and loan types.",
+            "description": "Get type-wise number of loan data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -361,7 +362,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_monthly_loans_volume_function = {
             "name": "get_monthly_loans_volume",
-            "description": "Get monthly loans volume data for selected branches and loan types.",
+            "description": "Get monthly loans volume data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -377,7 +378,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_loan_interest_rate_distribution_function = {
             "name": "get_loan_interest_rate_distribution",
-            "description": "Get loan interest rate distribution data for selected branches and loan types.",
+            "description": "Get loan interest rate distribution data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -393,7 +394,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_monthly_loan_recovery_count_function = {
             "name": "get_monthly_loan_recovery_count",
-            "description": "Get monthly loan recovery count data for selected branches and loan types.",
+            "description": "Get monthly loan recovery count data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -409,7 +410,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_monthly_loan_recovery_volume_function = {
             "name": "get_monthly_loan_recovery_volume",
-            "description": "Get monthly loan recovery volume data for selected branches and loan types.",
+            "description": "Get monthly loan recovery volume data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -425,7 +426,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_type_wise_transactions_volume_function = {
             "name": "get_type_wise_transactions_volume",
-            "description": "Get type-wise transaction volume data for selected branches within a date range.",
+            "description": "Get type-wise transaction volume data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -440,7 +441,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_type_wise_transactions_count_function = {
             "name": "get_type_wise_transactions_count",
-            "description": "Get type-wise transaction count data for selected branches within a date range.",
+            "description": "Get type-wise transaction count data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -455,7 +456,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_branch_wise_transactions_volume_function = {
             "name": "get_branch_wise_transactions_volume",
-            "description": "Get branch-wise transactions volume data for selected branches within a date range.",
+            "description": "Get branch-wise transactions volume data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -470,7 +471,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_branch_wise_transactions_count_function = {
             "name": "get_branch_wise_transactions_count",
-            "description": "Get branch-wise transactions count data for selected branches within a date range.",
+            "description": "Get branch-wise transactions count data for selected branches.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -485,7 +486,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
        
         get_branch_wise_app_users_function = {
             "name": "get_branch_wise_app_users",
-            "description": "Get branch-wise app user data for selected branches within a date range.",
+            "description": "Get branch-wise app user data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -500,7 +501,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_monthly_transactions_count_function = {
             "name": "get_monthly_transactions_count",
-            "description": "Get monthly transactions count data for selected branches within a date range.",
+            "description": "Get monthly transactions count data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -515,7 +516,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
        
         get_monthly_transactions_volume_function= {
             "name": "get_monthly_transactions_volume",
-            "description": "Get monthly transactions volume data for selected branches within a date range.",
+            "description": "Get monthly transactions volume data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -529,7 +530,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
         }
         get_monthly_pigmy_collection_volume_function= {
             "name": "get_monthly_pigmy_collection_volume",
-            "description": "Get monthly pigmy collection volume data for selected branches within a date range.",
+            "description": "Get monthly pigmy collection volume data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -544,7 +545,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_online_payments_volume_function= {
             "name": "get_online_payments_volume",
-            "description": "Get monthly online payments volume data for selected branches within a date range.",
+            "description": "Get monthly online payments volume data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -559,7 +560,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_online_payments_count_function= {
             "name": "get_online_payments_count",
-            "description": "Get monthly online payments count data for selected branches within a date range.",
+            "description": "Get monthly online payments count data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -574,7 +575,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_online_collections_volume_function= {
             "name": "get_online_collections_volume",
-            "description": "Get monthly online collections volume data for selected branches within a date range.",
+            "description": "Get monthly online collections volume data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -589,7 +590,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_online_collections_count_function= {
             "name": "get_online_collections_count",
-            "description": "Get monthly online collections count data for selected branches within a date range.",
+            "description": "Get monthly online collections count data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -604,7 +605,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_branch_wise_customers_function= {
             "name": "get_branch_wise_customers",
-            "description": "Get branch wise customers data for selected branches within a date range.",
+            "description": "Get branch wise customers data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -619,7 +620,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
        
         get_caste_wise_customers_function= {
             "name": "get_caste_wise_customers",
-            "description": "Get caste wise customers data for selected branches within a date range.",
+            "description": "Get caste wise customers data. ",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -634,7 +635,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
        
         get_gender_wise_customers_function= {
             "name": "get_gender_wise_customers",
-            "description": "Get gender wise customers data for selected branches within a date range.",
+            "description": "Get gender wise customers data .",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -649,7 +650,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
        
         get_area_wise_customers_function= {
             "name": "get_area_wise_customers",
-            "description": "Get area wise customers data for selected branches within a date range.",
+            "description": "Get area wise customers data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -664,7 +665,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
 
         get_village_wise_customers_function= {
             "name": "get_village_wise_customers",
-            "description": "Get village wise customers data for selected branches within a date range.",
+            "description": "Get village wise customers data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -679,7 +680,7 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
        
         get_age_distribution_function= {
             "name": "get_age_distribution",
-            "description": "get age distribution data for selected branches within a date range.",
+            "description": "get age distribution data.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -717,39 +718,50 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
         system_instruction = types.Content(
             role="user",
             parts=[types.Part(text="""
-                You are a smart banking assistant.
-                Always follow these rules:
-                1. If the user asks for any details without mentioning branch name, assume it's for "all" branches.
-                2. Interpret 'this quarter' or 'Q1/Q2/etc.' as:
-                   - Q1: January – March
-                   - Q2: April – June
-                   - Q3: July – September
-                   - Q4: October – December
-                3. If the user mentions 'current month' or 'today', resolve it using the system's current date.
-                4. Ignore the day in any DD-MM-YYYY date and only use MM and YYYY.
-                5. If optional parameters (like type, month, year) are missing, proceed with the available data.
-                6. Interpret all "month" mentions in strings as:
-                   - January: 01 or Jan
-                   - February: 02 or Feb
-                   - March: 03 or Mar
-                   - April: 04 or Apr
-                   - May: 05
-                   - June: 06 or Jun
-                   - July: 07 or Jul
-                   - August: 08 or Aug
-                   - September: 09 or Sep
-                   - October: 10 or Oct
-                   - November: 11 or Nov
-                   - December: 12 or Dec
-                7. For year-only inputs, assume full year (January–December).
-                8. If no branch is specified and it's a ranking query (e.g. “highest deposit”), identify the top branch automatically.
-                9. If the user asks for highest deposit or top deposit branch, do not ask for a branch name. Call the deposit API without any branch and calculate the branch with highest deposit.
-                10. If the user does not provide a time period (month/year), do not ask for it.
-                    Assume a default period of the most recent complete quarter or entire current year depending on the context.
-                11. If both revenue and deposit data are asked in the same query, trigger both functions in parallel and combine the response.
-                12. If user input mentions multiple branches (e.g., "for Udupi branch and Manipal branch"), extract all branches mentioned and treat them as a comma-separated list in selectedBranches.
-            """)]
-        )
+You are a smart banking assistant. Follow these rules strictly for every user prompt:
+
+1. Branch Handling:
+   - If the user does not mention a branch, assume "all branches".
+   - If multiple branches are mentioned (e.g., “Udupi and Manipal”), extract all and pass as a comma-separated list.
+   - For ranking queries (e.g., "highest deposit", "top branch for loans"):
+     - Do NOT ask the user for a branch name.
+     - Automatically analyze across all branches and identify the top one using available data.
+
+2. Time Period Handling:
+   - If the user does not specify a time period (month, year, or date), DO NOT ask for it.
+   - Always assume the following default:
+     - Use the **entire current calendar year** (January to December).
+     - Only use a specific quarter if the user **explicitly mentions it** (e.g., “Q1”, “this quarter”, etc.).
+   - For "current month" or "today", resolve based on the system’s current date.
+   - If the user gives a full date (DD-MM-YYYY), ignore the day and use only the month and year.
+   - Never prompt the user to provide missing time inputs unless critically required for the query.
+
+3. Deposit Type Handling:
+   - If the user does not mention deposit types, assume **all types** by default.
+   - Do NOT ask the user which deposit types they are interested in.
+
+4. Optional Parameters:
+   - If the user does not provide optional parameters (like deposit types, year, or branch), use a smart default and continue.
+   - Do NOT delay execution or ask the user to fill in missing optional data.
+
+5. Month Conversion:
+   Convert all month names or short forms to two-digit numeric strings:
+   - Jan → 01, Feb → 02, Mar → 03, Apr → 04, May → 05, Jun → 06
+   - Jul → 07, Aug → 08, Sep → 09, Oct → 10, Nov → 11, Dec → 12
+
+6. Parallel Function Calls:
+   - If a prompt involves multiple categories (e.g., deposits + revenue), trigger all related APIs in parallel and combine their results cleanly.
+
+7. Response Behavior:
+   - Be direct and professional. Never restate the user’s question.
+   - Avoid follow-up questions unless the input is truly ambiguous and cannot be resolved.
+   - Output structured, clear insights (e.g., tables, rankings, summaries) wherever helpful.
+
+These rules apply to all banking-related queries: deposits, loans, transactions, customer data, analytics, and more.
+""")]
+)
+
+
 
         contents = [
             system_instruction,
@@ -757,17 +769,16 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
         ]
 
         response = client.models.generate_content(
-            model="gemini-2.0-flash-lite",
+            model="gemini-2.0-flash",
             contents=contents,
             config=types.GenerateContentConfig(tools=[tools])
         )
-
         if response.usage_metadata:
                 print(f"Prompt tokens (input): {response.usage_metadata.prompt_token_count}")
                 print(f"Candidates tokens (output): {response.usage_metadata.candidates_token_count}")
                 print(f"Total tokens (input + output): {response.usage_metadata.total_token_count}")
         else:
-                print("No usage_metadata found in the response.")
+                print("No usage_metadata found in the response.")       
         parts = response.candidates[0].content.parts
         print("\n[Gemini] Full parts from model:", parts)
 
@@ -901,13 +912,23 @@ def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
                 print(f"Total tokens (input + output): {followup_response.usage_metadata.total_token_count}")
             else:
                 print("No usage_metadata found in the response.")
-            return followup_response.candidates[0].content.parts[0].text
+            response_tokens = response.usage_metadata.total_token_count if response.usage_metadata else 0
+            followup_tokens = followup_response.usage_metadata.total_token_count if followup_response.usage_metadata else 0
+            total_tokens = response_tokens + followup_tokens
+
+            return {
+            "text": followup_response.candidates[0].content.parts[0].text,
+            "total_tokens": total_tokens
+            }
 
         else:
             # ✅ No function call, just return the Gemini text naturally
             for part in parts:
                 if hasattr(part, "text") and part.text.strip():
-                    return part.text.strip()
+                    return {
+            "text": part.text.strip(),
+            "total_tokens": response.usage_metadata.total_token_count if response.usage_metadata else 0
+            }
 
             return "Sorry, I couldn't generate a response."  # Should not hit this unless all parts empty
 

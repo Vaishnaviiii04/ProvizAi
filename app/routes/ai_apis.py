@@ -56,16 +56,25 @@ def get_ai_response():
         #     )
         # except Exception as db_err:
         #     print("Failed to log chat to DB:", db_err)
+        if isinstance(ai_response, dict):
+            ai_text = ai_response.get("text", "No response")
+            total_tokens = ai_response.get("total_tokens", 0)
+        else:
+            ai_text = str(ai_response)
+            total_tokens = 0
+
         DbService.log_chat(
-                user_id= extra_meta["UserId"],
-                user_input=user_input,
-                bank_id=extra_meta["Bank_Id"],
-                platform=extra_meta["Platform"],
-                response=ai_response
-            )
-        
+        user_id= extra_meta["UserId"],
+        user_input=user_input,
+        bank_id=extra_meta["Bank_Id"],
+        platform=extra_meta["Platform"],
+        response=ai_text,
+        total_tokens=total_tokens
+        )
+
         response_data["Valid"] = True
-        response_data["Message"] = ai_response
+        response_data["Message"] = ai_text
+
     except Exception as db_err:
         print("Failed to log chat to DB:", db_err)
     except json.JSONDecodeError as e:

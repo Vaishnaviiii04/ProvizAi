@@ -3,16 +3,16 @@ from app.db.db_connection import DbConnection
 
 class DbService:
     @staticmethod
-    def log_chat(user_id,user_input, bank_id, platform, response):
+    def log_chat(user_id, user_input, bank_id, platform, response, total_tokens):
         conn = DbConnection.get_connection()
         if conn:
             try:
                 cursor = conn.cursor()
                 insert_query = """
-                    INSERT INTO db_aichats (userId, userInput, bankId, platForm, response)
-                    VALUES (%s, %s, %s, %s, %s)
+                    INSERT INTO db_aichats (userId, userInput, bankId, platForm, response, totalTokens)
+                    VALUES (%s, %s, %s, %s, %s, %s)
                 """
-                values = (user_id, user_input, bank_id, platform, response)
+                values = (user_id, user_input, bank_id, platform, response, total_tokens)
                 cursor.execute(insert_query, values)
                 conn.commit()
                 print("Chat logged successfully.")
@@ -41,3 +41,4 @@ class DbService:
                 conn.close()
         return None
 
+    
