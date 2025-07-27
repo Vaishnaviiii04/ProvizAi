@@ -37,7 +37,7 @@ def decode_unicode_escapes(text):
 
 def GetPromptResponse(user_input: str, metadata: dict = None) -> str:
     try:
-        client = genai.Client(api_key="AIzaSyCPACKAszEIfA5gO3eRWDlzQ57q3zmYo_w")  # Replace with secure loading
+        client = genai.Client(api_key="YOUR_API_KEY")  # Replace with secure loading
 
         args = metadata or {}
         
