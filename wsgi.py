@@ -1,6 +1,9 @@
 from app import create_app
 from config import DevelopmentConfig, ProductionConfig
 import os
+# from flask import flask
+# app=flask(__name__)
+
 
 # You can choose which config to use based on an environment variable
 # For development, you'll likely use DevelopmentConfig
